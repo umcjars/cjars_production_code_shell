@@ -30,11 +30,11 @@ program define complete_roster, eclass;
 	/* Finally deal with the records that have insufficient PII for entity resolution */
 	
 	capture confirm file "O:\pii\roster\production_files\old_roster_insufficient_pii.dta";
-	if _rc!=0{;
+	if _rc==0{;
 		append using "O:\pii\roster\production_files\old_roster_insufficient_pii.dta", gen(old_roster_insuf_pii);
 	};
 	capture confirm file "O:\pii\roster\production_files\insufficient_pii_for_linking.dta";
-	if _rc!=0{;
+	if _rc==0{;
 		merge m:1 alias name_raw name_last name_first name_middle name_suffix name_middle_initial dob_dd dob_mm dob_yyyy birth_loc_city birth_loc_st birth_loc_ctry birth_loc_foreign sex_raw race_raw state_id state_id_ori county_id county_id_ori agency_id agency_id_ori ssn fbi_num addr_raw addr_bldnum addr_str addr_city addr_st addr_zip addr_ctry name_first_clean name_middle_clean race sex race_imputed sex_imputed using "O:\pii\roster\production_files\insufficient_pii_for_linking.dta", gen(new_data_insuf_pii);
 	};
 	
